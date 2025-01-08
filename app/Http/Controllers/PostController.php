@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreateEvent;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -36,6 +37,8 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->save();
+
+        event(new PostCreateEvent($post));
 
         return redirect()->route('posts.index');
     }
